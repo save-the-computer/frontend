@@ -1,4 +1,4 @@
-import { FormControl, FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material';
+import { Chip, FormControl, FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useState } from 'react';
 import { RouteComponentProps } from 'react-router';
@@ -28,6 +28,8 @@ export const STCProductDetailPage: React.FC<STCProductDetailPageProps> = props =
 	const defaultProduct = productSpec?.products.find(product => product.id === productSpec.id) ?? productSpec?.products[0];
 
 	const [focusedProductId, setFocusedProductId] = useState(id);
+	const [range, setRange] = useState<'7d' | '1mo' | '6mo' | '1y' | '5y'>('7d');
+
 	const {
 		response: product,
 		pending: productPending,
@@ -52,30 +54,64 @@ export const STCProductDetailPage: React.FC<STCProductDetailPageProps> = props =
 
 					<Box sx={{ display: 'flex' }}>
 						<Box sx={{ flex: 1, bgcolor: 'background.paper', padding: 2 }}>
-							{product !== undefined && <STCProductPriceChart product={product} />}
+							{product !== undefined && <STCProductPriceChart product={product} range={range} />}
 						</Box>
 						<Box marginLeft={6} />
-						<Box sx={{ width: 240, bgcolor: 'background.paper', padding: 2 }}>
-							<FormControl>
-								<RadioGroup value={focusedProductId} onChange={event => setFocusedProductId(event.target.value)}>
-									{productSpec.products.map(product => (
-										<FormControlLabel
-											key={product.id}
-											value={product.id}
-											control={<Radio />}
-											disableTypography
-											label={
-												<Typography variant="body2">
-													{product.stock_state === '재고있음' && product.price !== null
-														? toCurrencyString(product.price)
-														: product.stock_state}{' '}
-													{product.variant?.length > 0 ? `(${product.variant})` : ''}
-												</Typography>
-											}
-										/>
-									))}
-								</RadioGroup>
-							</FormControl>
+						<Box sx={{ width: 260 }}>
+							<Box sx={{ bgcolor: 'background.paper', padding: 2 }}>
+								<Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+									범위 선택
+								</Typography>
+
+								{(
+									[
+										{ value: '7d', label: '7일' },
+										{ value: '1mo', label: '1달' },
+										{ value: '6mo', label: '6달' },
+										// { value: '1y', label: '1년' },
+										// { value: '5y', label: '5년' },
+									] as const
+								).map(({ value, label }) => (
+									<Chip
+										variant={value === range ? 'filled' : 'outlined'}
+										color="primary"
+										key={value}
+										label={label}
+										size="small"
+										onClick={() => setRange(value)}
+										sx={{ marginTop: 1, marginRight: 1 }}
+									/>
+								))}
+							</Box>
+
+							<Box marginTop={4} />
+
+							<Box sx={{ bgcolor: 'background.paper', padding: 2 }}>
+								<Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+									제품 종류
+								</Typography>
+
+								<FormControl>
+									<RadioGroup value={focusedProductId} onChange={event => setFocusedProductId(event.target.value)}>
+										{productSpec.products.map(product => (
+											<FormControlLabel
+												key={product.id}
+												value={product.id}
+												control={<Radio />}
+												disableTypography
+												label={
+													<Typography variant="body2">
+														{product.stock_state === '재고있음' && product.price !== null
+															? toCurrencyString(product.price)
+															: product.stock_state}{' '}
+														{product.variant?.length > 0 ? `(${product.variant})` : ''}
+													</Typography>
+												}
+											/>
+										))}
+									</RadioGroup>
+								</FormControl>
+							</Box>
 						</Box>
 					</Box>
 				</>
