@@ -1,0 +1,7 @@
+version: "3"
+services:
+  web:
+    image: solo5star/stcomputer-frontend:0.1.0
+    restart: unless-stopped
+    ports:
+      - 3241:3241
