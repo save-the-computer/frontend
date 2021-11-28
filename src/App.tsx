@@ -1,26 +1,31 @@
+import { CssBaseline } from '@mui/material';
+import { grey, pink, purple } from '@mui/material/colors';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter } from 'react-router-dom';
+import { STCProductPage } from './page/STCProductPage';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const theme = createTheme({
+	palette: {
+		primary: {
+			main: purple[500],
+		},
+		secondary: {
+			main: pink[500],
+		},
+		background: {
+			paper: grey[50],
+		},
+	},
+});
 
-export default App;
+export const App: React.FC = () => {
+	return (
+		<BrowserRouter>
+			<ThemeProvider theme={theme}>
+				<CssBaseline />
+				<STCProductPage />
+			</ThemeProvider>
+		</BrowserRouter>
+	);
+};
