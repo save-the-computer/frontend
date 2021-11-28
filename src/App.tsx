@@ -3,7 +3,8 @@ import { grey, pink, purple } from '@mui/material/colors';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { STCProductPage } from './page/STCProductPage';
+import { STCAppBar } from './layout/STCAppBar';
+import { Routes } from './Routes';
 
 const theme = createTheme({
 	palette: {
@@ -24,7 +25,9 @@ export const App: React.FC = () => {
 		<BrowserRouter>
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
-				<STCProductPage />
+				<STCAppBar />
+
+				<Routes />
 			</ThemeProvider>
 		</BrowserRouter>
 	);
