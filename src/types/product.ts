@@ -40,7 +40,7 @@ export interface ProductPriceSeries {
 	start: string;
 	end: string;
 	series: {
-		price: Array<Product['price'] | null>;
+		price?: Array<Product['price'] | null>;
 		stock_state: Array<Product['stock_state'] | null>;
 	};
 }

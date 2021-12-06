@@ -32,13 +32,14 @@ export const STCProductPriceChart: React.FC<STCProductPriceChartProps> = props =
 	const start = new Date(productPriceSeries.start).valueOf();
 	const end = new Date(productPriceSeries.end).valueOf();
 
-	const length = productPriceSeries.series.price.length;
+	const length = productPriceSeries.series.stock_state.length;
 
-	const data: PricePoint[] = productPriceSeries.series.price.map((price, index) => ({
-		time: new Date(start + ((end - start) / (length - 1)) * index), // interpolation
-		price,
-		stockState: productPriceSeries.series.stock_state[index] ?? '알 수 없음',
-	}));
+	const data: PricePoint[] =
+		productPriceSeries.series.stock_state.map((stockState, index) => ({
+			time: new Date(start + ((end - start) / (length - 1)) * index), // interpolation
+			price: productPriceSeries.series.price?.[index] ?? null,
+			stockState: stockState ?? '데이터 없음',
+		})) ?? [];
 
 	return (
 		<ResponsiveContainer width="100%" height={400}>
