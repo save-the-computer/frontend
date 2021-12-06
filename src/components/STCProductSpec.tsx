@@ -19,13 +19,17 @@ export const STCProductSpec: React.FC<STCProductSpecProps> = props => {
 			<STCProductThumbnail width={100} height={100} src={productSpec.thumbnail} />
 
 			<Box sx={{ marginLeft: 4 }}>
-				<Link
-					variant="h6"
-					sx={{ color: 'black', '&:hover': { cursor: 'pointer' } }}
-					underline="hover"
-					onClick={() => history.push(`/products/${productSpec.id}`)}>
-					{productSpec.name}
-				</Link>
+				{productSpec.products.length === 0 ? (
+					`${productSpec.name} (품절)`
+				) : (
+					<Link
+						variant="h6"
+						sx={{ color: 'black', '&:hover': { cursor: 'pointer' } }}
+						underline="hover"
+						onClick={() => history.push(`/products/${productSpec.id}`)}>
+						{productSpec.name}
+					</Link>
+				)}
 			</Box>
 
 			<Box sx={{ marginLeft: 'auto' }} />
